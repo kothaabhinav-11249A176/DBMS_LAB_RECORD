@@ -8,24 +8,6 @@ SQL> CREATE TABLE STUDENT
   5   DEPARTMENT VARCHAR2(20),
   6  MARKS NUMBER(3)
   7  );
-CREATE TABLE STUDENT
-             *
-ERROR at line 1:
-ORA-00955: name is already used by an existing object
-
-
-SQL> drop table STUDENT
-  2  ;
-
-Table dropped.
-
-SQL> CREATE TABLE STUDENT
-  2  (
-  3   STUDENT_ID NUMBER(5) PRIMARY KEY,
-  4   STUDENT_NAME VARCHAR2(30),
-  5   DEPARTMENT VARCHAR2(20),
-  6  MARKS NUMBER(3)
-  7  );
 
 Table created.
 
@@ -157,7 +139,7 @@ STUDENT_ID STUDENT_NAME                   DEPARTMENT                MARKS
 
 6 rows selected.
 
-_______________________________________________________________________________________________________________________________________________________________________________________
+__________________________________________________________________________________________________________________________________________
 SQL> CREATE TABLE DEPARTMENT
   2  (
   3   DEPT_ID NUMBER(3) PRIMARY KEY,
