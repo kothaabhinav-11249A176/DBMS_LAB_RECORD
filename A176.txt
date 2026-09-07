@@ -264,14 +264,6 @@ SQL> ALTER TABLE f1student
 
 Table altered.
 
-SQL> INSERT INTO f1student
-  2  VALUES (2, 'Kumar', 'kumar@gmail.com', 15, 102);
-INSERT INTO f1student
-*
-ERROR at line 1:
-ORA-02290: check constraint (A176.CHK_F1STUDENT_AGE) violated
-
-
 SQL> CREATE TABLE course (
   2      course_id INT PRIMARY KEY,
   3      course_name VARCHAR(50)
@@ -352,34 +344,8 @@ COURSE                         TABLE
 
 18 rows selected.
 
-SQL> alter table f1student
-  2  add constraint studentinfo
-  3  foregin key(name)reference
-  4  name(name varchar(203);
-foregin key(name)reference
-            *
-ERROR at line 3:
-ORA-01735: invalid ALTER TABLE option
-
-
-SQL> drop studentinfo;
-drop studentinfo
-     *
-ERROR at line 1:
-ORA-00950: invalid DROP option
-
-
 SQL> drop table studentinfo;
-
 Table dropped.
-
-SQL> select * tab;
-select * tab
-         *
-ERROR at line 1:
-ORA-00923: FROM keyword not found where expected
-
-
 SQL> select * from tab;
 
 TNAME                          TABTYPE  CLUSTERID
@@ -407,19 +373,3 @@ COURSE                         TABLE
 BIN$Rcu8SSBuTAu81aAq8v8v3w==$0 TABLE
 
 18 rows selected.
-
-SQL> drop table BIN$Rcu8SSBuTAu81aAq8v8v3w==$0;
-drop table BIN$Rcu8SSBuTAu81aAq8v8v3w==$0
-                                     *
-ERROR at line 1:
-ORA-00933: SQL command not properly ended
-
-
-SQL> drop table BIN$Rcu8SSBuTAu81aAq8v8v3w==$0;
-drop table BIN$Rcu8SSBuTAu81aAq8v8v3w==$0
-                                     *
-ERROR at line 1:
-ORA-00933: SQL command not properly ended
-
-
-SQL>
