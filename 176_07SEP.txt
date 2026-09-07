@@ -1,0 +1,317 @@
+Connected to:
+Oracle Database 11g Release 11.2.0.1.0 - Production
+
+SQL> CREATE TABLE STUDENT
+  2  (
+  3   STUDENT_ID NUMBER(5) PRIMARY KEY,
+  4   STUDENT_NAME VARCHAR2(30),
+  5   DEPARTMENT VARCHAR2(20),
+  6  MARKS NUMBER(3)
+  7  );
+CREATE TABLE STUDENT
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+SQL> drop table STUDENT
+  2  ;
+
+Table dropped.
+
+SQL> CREATE TABLE STUDENT
+  2  (
+  3   STUDENT_ID NUMBER(5) PRIMARY KEY,
+  4   STUDENT_NAME VARCHAR2(30),
+  5   DEPARTMENT VARCHAR2(20),
+  6  MARKS NUMBER(3)
+  7  );
+
+Table created.
+
+SQL> INSERT INTO STUDENT VALUES (101,'ARUN','CSE',85);
+
+1 row created.
+
+SQL> INSERT INTO STUDENT VALUES (102,'BALA','ECE',78);
+
+1 row created.
+
+SQL> INSERT INTO STUDENT VALUES (103,'DIVYA','IT',92);
+
+1 row created.
+
+SQL> INSERT INTO STUDENT VALUES (104,'KAVI','CSE',88);
+
+1 row created.
+
+SQL> INSERT INTO STUDENT VALUES (105,'RAVI','ECE',81);
+
+1 row created.
+
+SQL> INSERT INTO STUDENT VALUES (106,'SURESH','IT',95);
+
+1 row created.
+
+SQL> select count(*)as total_students
+  2  from STUDENT;
+
+TOTAL_STUDENTS
+--------------
+             6
+
+SQL> select sum(marks) as total_marks
+  2  from STUDENT;
+
+TOTAL_MARKS
+-----------
+        519
+
+SQL> SELECT AVG(MARKS) AS AVERAGE_MARKS FROM STUDENT;
+
+AVERAGE_MARKS
+-------------
+         86.5
+
+SQL> SELECT MAX(MARKS) AS HIGHEST_MARK FROM STUDENT;
+
+HIGHEST_MARK
+------------
+          95
+
+SQL> SELECT MIN(MARKS) AS LOWEST_MARK FROM STUDENT;
+
+LOWEST_MARK
+-----------
+         78
+
+SQL> SELECT DEPARTMENT,AVG(MARKS) AS AVG_MARKS
+  2  FROM STUDENT
+  3  GROUP BY DEPERTMENT;
+GROUP BY DEPERTMENT
+         *
+ERROR at line 3:
+ORA-00904: "DEPERTMENT": invalid identifier
+
+
+SQL> SELECT DEPARTMENT,AVG(MARKS) AS AVG_MARKS
+  2  FROM STUDENT
+  3  GROUP BY DEPARTMENT;
+
+DEPARTMENT            AVG_MARKS
+-------------------- ----------
+IT                         93.5
+CSE                        86.5
+ECE                        79.5
+
+SQL> SELECT DEPARTMENT,COUNT(*) AS TOTAL_STUDENTS
+  2  FROM STUDENT
+  3  GROUP BY DEPARTMENT;
+
+DEPARTMENT           TOTAL_STUDENTS
+-------------------- --------------
+IT                                2
+CSE                               2
+ECE                               2
+
+SQL> SELECT DEPARTMENT,MAX(MARKS) AS MAX_MARKS
+  2  FROM STUDENT
+  3  GROUP BY DEPARTMENT;
+
+DEPARTMENT            MAX_MARKS
+-------------------- ----------
+IT                           95
+CSE                          88
+ECE                          81
+
+SQL> SELECT DEPARTMENT ,COUNT(*) AS TOTAL_STUDENTS
+  2  FROM STUDENT
+  3  GROUP BY DEPARTMENT
+  4  HAVING COUNT (*)>1;
+
+DEPARTMENT           TOTAL_STUDENTS
+-------------------- --------------
+IT                                2
+CSE                               2
+ECE                               2
+
+SQL> SELECT DEPARTMENT,COUNT(*)AS NO_OF_STUDENTS,AVG(MARKS)AS AVG_MARKS,MAX(MARKS) AS HIGHEST_MARK FROM STUDENT
+  2  GROUP BY DEPARTMENT
+  3  HAVING AVG(MARKS)>80;
+
+DEPARTMENT           NO_OF_STUDENTS  AVG_MARKS HIGHEST_MARK
+-------------------- -------------- ---------- ------------
+IT                                2       93.5           95
+CSE                               2       86.5           88
+
+SQL> SELECT *FROM STUDENT;
+
+STUDENT_ID STUDENT_NAME                   DEPARTMENT                MARKS
+---------- ------------------------------ -------------------- ----------
+       101 ARUN                           CSE                          85
+       102 BALA                           ECE                          78
+       103 DIVYA                          IT                           92
+       104 KAVI                           CSE                          88
+       105 RAVI                           ECE                          81
+       106 SURESH                         IT                           95
+
+6 rows selected.
+
+_______________________________________________________________________________________________________________________________________________________________________________________
+SQL> CREATE TABLE DEPARTMENT
+  2  (
+  3   DEPT_ID NUMBER(3) PRIMARY KEY,
+  4   DEPT_NAME VARCHAR2(30)
+  5  );
+
+Table created.
+
+SQL> INSERT INTO DEPARTMENT VALUES (101,'CSE');
+
+1 row created.
+
+SQL> INSERT INTO DEPARTMENT VALUES (102,'ECE');
+
+1 row created.
+
+SQL> INSERT INTO DEPARTMENT VALUES (103,'IT');
+
+1 row created.
+
+SQL> DROP TABLE STUDENT;
+
+Table dropped.
+
+
+SQL> CREATE TABLE STUDENT(
+  2  STUDENT_ID NUMBER(5)PRIMARY KEY,
+  3  STUDENT_NAME VARCHAR2(30),
+  4  MARKS NUMBER(3),DEPT_ID NUMBER(3),
+  5  CONSTRAINT FK_DEPT FOREIGN KEY(DEPT_ID)
+  6  REFERENCES DEPARTMENT(DEPT_ID)
+  7  );
+
+Table created.
+
+SQL> INSERT INTO STUDENT VALUES(1001,'ABHI',85,101);
+
+1 row created.
+
+SQL> INSERT INTO STUDENT VALUES(1002,'RAVI',78,102);
+
+1 row created.
+
+SQL> INSERT INTO STUDENT VALUES (1003,'PRASAD',92,103);
+
+1 row created.
+
+SQL> INSERT INTO STUDENT VALUES(1004,'SAI',88,101);
+
+1 row created.
+
+
+SQL> SELECT S.STUDENT_ID, S.STUDENT_NAME, D.DEPT_NAME
+  2  FROM STUDENT S
+  3   INNER JOIN DEPARTMENT D
+  4   ON S.DEPT_ID = D.DEPT_ID;
+
+STUDENT_ID STUDENT_NAME                   DEPT_NAME
+---------- ------------------------------ ------------------------------
+      1001 ABHI                           CSE
+      1002 RAVI                           ECE
+      1003 PRASAD                         IT
+      1004 SAI                            CSE
+
+SQL> SELECT S.STUDENT_NAME, D.DEPT_NAME
+  2  FROM STUDENT S
+  3  RIGHT OUTER JOIN DEPARTMENT D
+  4   ON S.DEPT_ID = D.DEPT_ID;
+
+STUDENT_NAME                   DEPT_NAME
+------------------------------ ------------------------------
+ABHI                           CSE
+RAVI                           ECE
+PRASAD                         IT
+SAI                            CSE
+
+SQL> SELECT S.STUDENT_NAME, D.DEPT_NAME
+  2  FROM STUDENT S
+  3  FULL OUTER JOIN DEPARTMENT D
+  4   ON S.DEPT_ID = D.DEPT_ID;
+
+STUDENT_NAME                   DEPT_NAME
+------------------------------ ------------------------------
+ABHI                           CSE
+RAVI                           ECE
+PRASAD                         IT
+SAI                            CSE
+
+SQL> CREATE TABLE EMPLOYEE
+  2  (
+  3   EMP_ID NUMBER(5) PRIMARY KEY,
+  4   EMP_NAME VARCHAR2(30),
+  5   MANAGER_ID NUMBER(5)
+  6  );
+
+Table created.
+
+SQL> INSERT INTO EMPLOYEE VALUES (1,'RAJ',NULL);
+
+1 row created.
+
+SQL> INSERT INTO EMPLOYEE VALUES (2,'ARUN',1);
+
+1 row created.
+
+SQL> INSERT INTO EMPLOYEE VALUES (3,'BALA',1);
+
+1 row created.
+
+SQL> SELECT E.EMP_NAME EMPLOYEE, M.EMP_NAME MANAGER
+  2  FROM EMPLOYEE E
+  3  LEFT JOIN EMPLOYEE M
+  4   ON E.MANAGER_ID = M.EMP_ID;
+
+EMPLOYEE                       MANAGER
+------------------------------ ------------------------------
+RAJ
+ARUN                           RAJ
+BALA                           RAJ
+
+SQL> SELECT STUDENT_NAME, MARKS
+  2  FROM STUDENT
+  3  WHERE MARKS >
+  4  (
+  5   SELECT AVG(MARKS)
+  6   FROM STUDENT
+  7  );
+
+STUDENT_NAME                        MARKS
+------------------------------ ----------
+PRASAD                                 92
+SAI                                    88
+
+SQL> SELECT STUDENT_NAME FROM STUDENT WHERE DEPT_ID IN (
+  2  SELECT DEPT_ID FROM DEPARTMENT WHERE DEPT_NAME ='CSE');
+
+STUDENT_NAME
+------------------------------
+ABHI
+SAI
+
+SQL> SELECT STUDENT_NAME, MARKS, DEPT_ID
+  2  FROM STUDENT S1
+  3  WHERE MARKS =
+  4  (
+  5   SELECT MAX(MARKS)
+  6   FROM STUDENT S2
+  7   WHERE S1.DEPT_ID = S2.DEPT_ID
+  8  );
+
+STUDENT_NAME                        MARKS    DEPT_ID
+------------------------------ ---------- ----------
+RAVI                                   78        102
+PRASAD                                 92        103
+SAI                                    88        101
+
+SQL>

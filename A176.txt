@@ -1,0 +1,425 @@
+
+SQL> CREATE TABLE f1student (
+  2      student_id INT,
+  3      student_name VARCHAR(50),
+  4      email VARCHAR(100),
+  5      age INT,
+  6      course_id INT
+  7  );
+
+Table created.
+
+SQL> desc f1student
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STUDENT_ID                                         NUMBER(38)
+ STUDENT_NAME                                       VARCHAR2(50)
+ EMAIL                                              VARCHAR2(100)
+ AGE                                                NUMBER(38)
+ COURSE_ID                                          NUMBER(38)
+
+SQL> ALTER TABLE f1student
+  2  ADD CONSTRAINT uq_f1student_email
+  3  UNIQUE (email);
+
+Table altered.
+
+SQL> desc f1student
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STUDENT_ID                                         NUMBER(38)
+ STUDENT_NAME                                       VARCHAR2(50)
+ EMAIL                                              VARCHAR2(100)
+ AGE                                                NUMBER(38)
+ COURSE_ID                                          NUMBER(38)
+SQL> SELECT constraint_name, constraint_type
+  2  FROM user_constraints
+  3  WHERE table_name = 'F1STUDENT';
+
+CONSTRAINT_NAME                C
+------------------------------ -
+UQ_F1STUDENT_EMAIL             U
+
+SQL>SQL> INSERT INTO f1student
+  2  VALUES (1, 'Arun', 'arun@gmail.com', 20, 101);
+
+1 row created.
+
+SQL> select * from f1student;
+
+STUDENT_ID STUDENT_NAME
+---------- --------------------------------------------------
+EMAIL
+--------------------------------------------------------------------------------
+       AGE  COURSE_ID
+---------- ----------
+         1 Arun
+arun@gmail.com
+        20        101
+
+
+SQL>SQL> ALTER TABLE f1student
+  2  ADD CONSTRAINT pk_f1student
+  3  PRIMARY KEY (student_id);
+
+Table altered.
+
+SQL> SELECT constraint_name, constraint_type
+  2  FROM user_constraints
+  3  WHERE table_name = 'F1STUDENT';
+
+CONSTRAINT_NAME                C
+------------------------------ -
+UQ_F1STUDENT_EMAIL             U
+PK_F1STUDENT                   P
+
+SQL> ALTER TABLE f1student
+  2  MODIFY student_name CONSTRAINT nn_f1student_name NOT NULL;
+
+Table altered.
+
+SQL> ALTER TABLE f1student
+  2  MODIFY email CONSTRAINT nn_f1student_email NOT NULL;
+
+Table altered.
+
+SQL> SELECT constraint_name, constraint_type
+  2  FROM user_constraints
+  3  WHERE table_name = 'F1STUDENT';
+
+CONSTRAINT_NAME                C
+------------------------------ -
+UQ_F1STUDENT_EMAIL             U
+PK_F1STUDENT                   P
+NN_F1STUDENT_NAME              C
+NN_F1STUDENT_EMAIL             C
+
+SQL> ALTER TABLE f1student
+  2  ADD CONSTRAINT chk_f1student_age
+  3  CHECK (age >= 18);
+
+Table altered.
+
+SQL> INSERT INTO f1student
+  2  VALUES (2, 'Kumar', 'kumar@gmail.com', 15, 102);
+INSERT INTO f1student
+*
+ERROR at line 1:
+ORA-02290: check constraint (A176.CHK_F1STUDENT_AGE) violated
+
+
+SQL> CREATE TABLE course (
+  2      course_id INT PRIMARY KEY,
+  3      course_name VARCHAR(50)
+  4  );
+
+Table created.
+
+SQL> INSERT INTO course VALUES (101, 'Java');
+
+1 row created.
+
+SQL> INSERT INTO course VALUES (102, 'Python');
+
+1 row created.
+
+SQL> ALTER TABLE f1student
+  2  ADD CONSTRAINT fk_f1student_course
+  3  FOREIGN KEY (course_id)
+  4  REFERENCES course(course_id);
+
+Table altered.
+
+SQL> SELECT constraint_name, constraint_type
+  2  FROM user_constraints
+  3  WHERE table_name = 'F1STUDENT';
+
+CONSTRAINT_NAME                C
+------------------------------ -
+UQ_F1STUDENT_EMAIL             U
+PK_F1STUDENT                   P
+NN_F1STUDENT_NAME              C
+NN_F1STUDENT_EMAIL             C
+CHK_F1STUDENT_AGE              C
+FK_F1STUDENT_COURSE            R
+
+6 rows selected.
+SQL> CREATE TABLE f1student (
+  2      student_id INT,
+  3      student_name VARCHAR(50),
+  4      email VARCHAR(100),
+  5      age INT,
+  6      course_id INT
+  7  );
+
+Table created.
+
+SQL> desc f1student
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STUDENT_ID                                         NUMBER(38)
+ STUDENT_NAME                                       VARCHAR2(50)
+ EMAIL                                              VARCHAR2(100)
+ AGE                                                NUMBER(38)
+ COURSE_ID                                          NUMBER(38)
+
+SQL> ALTER TABLE f1student
+  2  ADD CONSTRAINT uq_f1student_email
+  3  UNIQUE (email);
+
+Table altered.
+
+SQL> desc f1student
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STUDENT_ID                                         NUMBER(38)
+ STUDENT_NAME                                       VARCHAR2(50)
+ EMAIL                                              VARCHAR2(100)
+ AGE                                                NUMBER(38)
+ COURSE_ID                                          NUMBER(38)
+
+SQL> SELECT constraint_name, constraint_type
+  2  FROM user_constraints
+  3  WHERE table_name = 'F1STUDENT';
+
+CONSTRAINT_NAME                C
+------------------------------ -
+UQ_F1STUDENT_EMAIL             U
+
+SQL> INSERT INTO f1student
+  2  VALUES (1, 'Arun', 'arun@gmail.com', 20, 101);
+
+1 row created.
+
+SQL> select * from f1student;
+
+STUDENT_ID STUDENT_NAME
+---------- --------------------------------------------------
+EMAIL
+--------------------------------------------------------------------------------
+       AGE  COURSE_ID
+---------- ----------
+         1 Arun
+arun@gmail.com
+        20        101
+
+
+SQL> SELECT constraint_name,
+  2         constraint_type,
+  3         search_condition,
+  4         r_constraint_name
+  5  FROM user_constraints
+  6  WHERE table_name = 'F1STUDENT';
+
+CONSTRAINT_NAME                C
+------------------------------ -
+SEARCH_CONDITION
+--------------------------------------------------------------------------------
+R_CONSTRAINT_NAME
+------------------------------
+UQ_F1STUDENT_EMAIL             U
+
+
+
+
+SQL> ALTER TABLE f1student
+  2  ADD CONSTRAINT pk_f1student
+  3  PRIMARY KEY (student_id);
+
+Table altered.
+
+SQL> SELECT constraint_name, constraint_type
+  2  FROM user_constraints
+  3  WHERE table_name = 'F1STUDENT';
+
+CONSTRAINT_NAME                C
+------------------------------ -
+UQ_F1STUDENT_EMAIL             U
+PK_F1STUDENT                   P
+
+SQL> ALTER TABLE f1student
+  2  MODIFY student_name CONSTRAINT nn_f1student_name NOT NULL;
+
+Table altered.
+
+SQL> ALTER TABLE f1student
+  2  MODIFY email CONSTRAINT nn_f1student_email NOT NULL;
+
+Table altered.
+
+SQL> SELECT constraint_name, constraint_type
+  2  FROM user_constraints
+  3  WHERE table_name = 'F1STUDENT';
+
+CONSTRAINT_NAME                C
+------------------------------ -
+UQ_F1STUDENT_EMAIL             U
+PK_F1STUDENT                   P
+NN_F1STUDENT_NAME              C
+NN_F1STUDENT_EMAIL             C
+
+SQL> ALTER TABLE f1student
+  2  ADD CONSTRAINT chk_f1student_age
+  3  CHECK (age >= 18);
+
+Table altered.
+
+SQL> INSERT INTO f1student
+  2  VALUES (2, 'Kumar', 'kumar@gmail.com', 15, 102);
+INSERT INTO f1student
+*
+ERROR at line 1:
+ORA-02290: check constraint (A176.CHK_F1STUDENT_AGE) violated
+
+
+SQL> CREATE TABLE course (
+  2      course_id INT PRIMARY KEY,
+  3      course_name VARCHAR(50)
+  4  );
+
+Table created.
+
+SQL> INSERT INTO course VALUES (101, 'Java');
+
+1 row created.
+
+SQL> INSERT INTO course VALUES (102, 'Python');
+
+1 row created.
+
+SQL> ALTER TABLE f1student
+  2  ADD CONSTRAINT fk_f1student_course
+  3  FOREIGN KEY (course_id)
+  4  REFERENCES course(course_id);
+
+Table altered.
+
+SQL> SELECT constraint_name, constraint_type
+  2  FROM user_constraints
+  3  WHERE table_name = 'F1STUDENT';
+
+CONSTRAINT_NAME                C
+------------------------------ -
+UQ_F1STUDENT_EMAIL             U
+PK_F1STUDENT                   P
+NN_F1STUDENT_NAME              C
+NN_F1STUDENT_EMAIL             C
+CHK_F1STUDENT_AGE              C
+FK_F1STUDENT_COURSE            R
+
+6 rows selected.
+
+SQL> SELECT constraint_name, constraint_type
+  2  FROM user_constraints
+  3  WHERE table_name = 'F1STUDENT';
+
+CONSTRAINT_NAME                C
+------------------------------ -
+UQ_F1STUDENT_EMAIL             U
+PK_F1STUDENT                   P
+NN_F1STUDENT_NAME              C
+NN_F1STUDENT_EMAIL             C
+CHK_F1STUDENT_AGE              C
+FK_F1STUDENT_COURSE            R
+
+6 rows selected.
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+STUDENTINFO3                   TABLE
+STUDENTINFO2                   TABLE
+STUDENTINFO                    TABLE
+STUDENT5                       TABLE
+STUDENT4                       TABLE
+STUDENT3                       TABLE
+STUDENT2                       TABLE
+STUDENT                        TABLE
+PSTUDENT5                      TABLE
+PSTUDENT4                      TABLE
+PSTUDENT3                      TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+PSTUDENT2                      TABLE
+PSTUDENT1                      TABLE
+PSTUDENT                       TABLE
+F1STUDENT                      TABLE
+DEPT1                          TABLE
+DEPT                           TABLE
+COURSE                         TABLE
+
+18 rows selected.
+
+SQL> alter table f1student
+  2  add constraint studentinfo
+  3  foregin key(name)reference
+  4  name(name varchar(203);
+foregin key(name)reference
+            *
+ERROR at line 3:
+ORA-01735: invalid ALTER TABLE option
+
+
+SQL> drop studentinfo;
+drop studentinfo
+     *
+ERROR at line 1:
+ORA-00950: invalid DROP option
+
+
+SQL> drop table studentinfo;
+
+Table dropped.
+
+SQL> select * tab;
+select * tab
+         *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+STUDENTINFO3                   TABLE
+STUDENTINFO2                   TABLE
+STUDENT5                       TABLE
+STUDENT4                       TABLE
+STUDENT3                       TABLE
+STUDENT2                       TABLE
+STUDENT                        TABLE
+PSTUDENT5                      TABLE
+PSTUDENT4                      TABLE
+PSTUDENT3                      TABLE
+PSTUDENT2                      TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+PSTUDENT1                      TABLE
+PSTUDENT                       TABLE
+F1STUDENT                      TABLE
+DEPT1                          TABLE
+DEPT                           TABLE
+COURSE                         TABLE
+BIN$Rcu8SSBuTAu81aAq8v8v3w==$0 TABLE
+
+18 rows selected.
+
+SQL> drop table BIN$Rcu8SSBuTAu81aAq8v8v3w==$0;
+drop table BIN$Rcu8SSBuTAu81aAq8v8v3w==$0
+                                     *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> drop table BIN$Rcu8SSBuTAu81aAq8v8v3w==$0;
+drop table BIN$Rcu8SSBuTAu81aAq8v8v3w==$0
+                                     *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL>
